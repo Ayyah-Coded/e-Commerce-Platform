@@ -1,15 +1,37 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { clerkMiddleware } from "@hono/clerk-auth";
+import { cors } from "hono/cors";
 
-const app = new Hono()
+const app = new Hono();
+app.use("*", clerkMiddleware());
+app.use("*", cors({ origin: ["http://localhost:3002"] }));
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+app.get("/health", (c) => {
+  return c.json({
+    status: "ok",
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+  });
+});
 
-serve({
-  fetch: app.fetch,
-  port: 3000
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
+
+
+const start = async () => {
+  try {
+    
+    serve(
+      {
+        fetch: app.fetch,
+        port: 8002,
+      },
+      (info) => {
+        console.log(`Payment service is running on port 8002`);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+start();
