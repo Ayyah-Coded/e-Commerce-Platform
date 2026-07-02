@@ -5,6 +5,8 @@ import { clerkMiddleware } from "@clerk/express";
 import productRouter from "./routes/product.route";
 import categoryRouter from "./routes/category.route";
 
+import { consumer, producer } from "./utils/kafka.js";
+
 const app = express();
 app.use(
   cors({
@@ -36,7 +38,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 
 const start = async () => {
   try {
-    
+    Promise.all([await producer.connect(), await consumer.connect()]);
     app.listen(8000, () => {
       console.log("Product service is running on 8000");
     });

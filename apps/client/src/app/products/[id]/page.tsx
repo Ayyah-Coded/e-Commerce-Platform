@@ -11,12 +11,8 @@ const fetchProduct = async (id: string) => {
   return data;
 };
 
-export const generateMetadata = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
-    const { id } = await params;
+export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
 
   const product = await fetchProduct(id);
   return {
@@ -25,10 +21,7 @@ export const generateMetadata = async ({
   };
 };
 
-const ProductPage = async ({
-  params,
-  searchParams,
-}: {
+const ProductPage = async ({ params, searchParams }: {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ color: string; size: string }>;
 }) => {

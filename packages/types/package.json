@@ -7,7 +7,6 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/product-database": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^26.1.0"
   },
@@ -18,6 +17,8 @@
     }
   },
   "dependencies": {
-    "zod": "4.4.3"
+    "zod": "4.4.3",
+    "@repo/product-database": "workspace:*",
+    "@repo/order-db": "workspace:*"
   }
 }
